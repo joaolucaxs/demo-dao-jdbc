@@ -12,10 +12,8 @@ public class Program {
 		
 		SellerDAO sellerDAO = FactoryDAO.createSellerDAO();
 		
-		Department obj = new Department(1, "Books");
-		System.out.println(obj);
-		
-		Seller seller = sellerDAO.findById(3);
+		System.out.println("==== TEST 1: seller findById ====");
+		Seller seller = sellerDAO.findById(2);
 		System.out.println(seller);
 
 	}
