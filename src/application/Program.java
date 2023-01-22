@@ -44,6 +44,14 @@ public class Program {
 		seller.setName("Martha Waine");
 		seller.setEmail("mart@gmail.com");
 		sellerDAO.update(seller);
+		
+		System.out.println("\n==== TEST 6: seller delete ====");
+		sellerDAO.deleteById(8);
+		sellerDAO.deleteById(9);
+		sellerDAO.deleteById(10);
+		sellerDAO.deleteById(20);
+
+
 	}
 
 }
