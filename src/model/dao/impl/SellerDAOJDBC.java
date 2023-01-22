@@ -25,8 +25,40 @@ public class SellerDAOJDBC implements SellerDAO {
 
 	@Override
 	public void insert(Seller obj) {
-		// TODO Auto-generated method stub
-
+		
+		PreparedStatement st = null;
+		
+		try {
+			String sql = "INSERT INTO seller "
+					+ "(Name, Email, BirthDate, BaseSalary, DepartmentId) "
+					+ "VALUES (?, ?, ?, ?, ?) ";
+			
+			st = conn.prepareStatement(sql, java.sql.Statement.RETURN_GENERATED_KEYS);
+			st.setString(1, obj.getName());
+			st.setString(2, obj.getEmail());
+			st.setDate(3, new java.sql.Date(obj.getBirthDate().getTime()));
+			st.setDouble(4, obj.getBaseSalary());
+			st.setInt(5, obj.getDepartment().getId());
+			
+			int rowsAffected = st.executeUpdate();
+			
+			if(rowsAffected > 0) {
+				ResultSet rs = st.getGeneratedKeys();
+				if (rs.next()) {
+					int id = rs.getInt(1);
+					obj.setId(id);
+				}
+				DB.closeResultSet(rs);
+			}else {
+				throw new DbException("Nenhuma linha afetada");
+			}
+			
+		} catch (SQLException e) {
+			throw new DbException(e.getMessage());
+		} finally {
+			DB.closeStatement(st);
+		}
+		
 	}
 
 	@Override
@@ -64,7 +96,6 @@ public class SellerDAOJDBC implements SellerDAO {
 			throw new DbException(e.getMessage());
 		} finally {
 			DB.closeStatement(st);
-			;
 			DB.closeResultSet(rs);
 		}
 
@@ -123,7 +154,6 @@ public class SellerDAOJDBC implements SellerDAO {
 			throw new DbException(e.getMessage());
 		} finally {
 			DB.closeStatement(st);
-			;
 			DB.closeResultSet(rs);
 		}
 	}
@@ -165,7 +195,6 @@ public class SellerDAOJDBC implements SellerDAO {
 			throw new DbException(e.getMessage());
 		} finally {
 			DB.closeStatement(st);
-			;
 			DB.closeResultSet(rs);
 		}
 
